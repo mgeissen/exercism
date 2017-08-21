@@ -15,18 +15,32 @@ defmodule SecretHandshake do
   """
   @spec commands(code :: integer) :: list(String.t())
   def commands(code) do
-    reverse = false
-    if code >= 16, do: reverse = true
-
+    commands = []
+    if (code <= 32) do
+        binaryString = Integer.to_string(code, 2)
+        commands = getCodeForBinary(binaryString)
+        if(code >= 16) do
+           commands = reverseList(commands)
+        end
+    end
+    commands
   end
 
-  def getCodeForBinary(position) do
-    return = ""
-        if code == 1, do: return = "wink"
-        if code == 2, do: return = "double blink"
-        if code == 3, do: return = "close your eyes"
-        if code == 4, do: return = "jump"
-        return
+  def getCodeForBinary(binary) do
+    returnList = []
+    if String.slice(binary, -1..-1) == "1", do: returnList = returnList ++ ["wink"]
+    if String.slice(binary, -2..-2) == "1", do: returnList = returnList ++ ["double blink"]
+    if String.slice(binary, -3..-3) == "1", do: returnList = returnList ++ ["close your eyes"]
+    if String.slice(binary, -4..-4) == "1", do: returnList = returnList ++ ["jump"]
+    returnList
+  end
+
+  def reverseList([])do
+       []
+  end
+
+  def reverseList([head | tail]) do
+      reverseList(tail) ++ [head]
   end
 
 end
