@@ -17,10 +17,9 @@ defmodule SecretHandshake do
   def commands(code) do
     commands = []
     if (code <= 32) do
-        binaryString = Integer.to_string(code, 2)
-        commands = getCodeForBinary(binaryString)
+        commands = code |> Integer.to_string(2) |> getCodeForBinary
         if(code >= 16) do
-           commands = reverseList(commands)
+           commands = Enum.reverse(commands)
         end
     end
     commands
@@ -33,14 +32,6 @@ defmodule SecretHandshake do
     if String.slice(binary, -3..-3) == "1", do: returnList = returnList ++ ["close your eyes"]
     if String.slice(binary, -4..-4) == "1", do: returnList = returnList ++ ["jump"]
     returnList
-  end
-
-  def reverseList([])do
-       []
-  end
-
-  def reverseList([head | tail]) do
-      reverseList(tail) ++ [head]
   end
 
 end
